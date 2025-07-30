@@ -1,0 +1,1197 @@
+<!-- Deploy to GitHub Pages -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyNotes Exchange</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #f8f9fa;
+            --dark: #212529;
+            --light: #ffffff;
+            --success: #28a745;
+            --danger: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--dark);
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--light);
+            box-shadow: var(--box-shadow);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--light);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(74, 107, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(74, 107, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(74, 107, 255, 0);
+            }
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), #7a91ff);
+            color: var(--light);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            bottom: 5px;
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: 50px;
+            padding: 0 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: #3a5bff;
+        }
+
+        /* Subjects Section */
+        .subjects {
+            padding: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .tag {
+            padding: 8px 16px;
+            background-color: var(--light);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            border: 1px solid #ddd;
+        }
+
+        .tag:hover, .tag.active {
+            background-color: var(--primary);
+            color: var(--light);
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(74, 107, 255, 0.3);
+        }
+
+        /* Notes Grid */
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .note-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .note-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .note-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .note-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .note-card:hover .note-image img {
+            transform: scale(1.05);
+        }
+
+        .note-content {
+            padding: 20px;
+        }
+
+        .note-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .note-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .note-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .note-author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+        }
+
+        .note-author img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .note-rating {
+            color: #ffc107;
+        }
+        .note-card .btn-outline {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Auth Modals */
+        .modal-content small {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .file-preview {
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Upload Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 200;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            max-width: 600px;
+            width: 90%;
+            margin: 50px auto;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            border: 2px dashed #ddd;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+        }
+
+        .file-upload i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .file-upload p {
+            color: #666;
+            text-align: center;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        #downloadBtn {
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light);
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .auth-buttons {
+                margin-top: 15px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .notes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 95%;
+                padding: 20px 15px;
+            }
+
+            .tags-container {
+                gap: 8px;
+            }
+
+            .tag {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-book-open"></i>
+                <span>StudyNotes</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#subjects">Subjects</a></li>
+                    <li><a href="#popular">Popular Notes</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="loginBtn">Login</button>
+                <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Exchange Study Notes With Students Worldwide</h1>
+            <p>Upload your notes, access high-quality materials from top students, and boost your learning experience.</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for notes by subject, topic, or keyword...">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </div>
+            <div style="margin-top: 20px;">
+                <button class="btn btn-outline" id="sampleDownloadBtn">
+                    <i class="fas fa-download"></i> Download Free Sample Notes
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects Section -->
+    <section class="subjects" id="subjects">
+        <div class="container">
+            <div class="section-title">
+                <h2>Browse By Subject</h2>
+                <p>Find notes for your specific course or field of study</p>
+            </div>
+            <div class="tags-container">
+                <div class="tag active">All</div>
+                <div class="tag">Mathematics</div>
+                <div class="tag">Physics</div>
+                <div class="tag">Chemistry</div>
+                <div class="tag">Biology</div>
+                <div class="tag">Computer Science</div>
+                <div class="tag">Engineering</div>
+                <div class="tag">Business</div>
+                <div class="tag">Medicine</div>
+                <div class="tag">Literature</div>
+                <div class="tag">History</div>
+                <div class="tag">Languages</div>
+            </div>
+            
+            <div class="notes-grid">
+                <!-- Note Card 1 -->
+                <div class="note-card">
+                    <div class="note-image">
+                        <img src="images/calculus-notes.png" alt="Handwritten calculus notes with diagrams showing derivative concepts and formulas with colorful highlights">
+                    </div>
+                    <div class="note-content">
+                        <h3 class="note-title">Calculus 101 - Complete Guide</h3>
+                        <p class="note-description">Comprehensive notes covering all calculus basics including limits, derivatives, and integrals. Perfect for first-year students.</p>
+                        <div class="note-footer">
+                            <div class="note-author">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3b878ea7-4ced-447d-ab19-3af0bb567060.png" alt="User profile picture">
+                                <span>John_Doe</span>
+                            </div>
+                            <div class="note-rating">
+                                <i class="fas fa-star"></i> 4.8
+                            </div>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Note Card 2 -->
+                <div class="note-card">
+                    <div class="note-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ee139b27-642a-49ee-b492-6267cad9511f.png" alt="Physics notes on thermodynamics with diagrams of heat engines and formulas neatly organized">
+                    </div>
+                    <div class="note-content">
+                        <h3 class="note-title">Physics: Thermodynamics</h3>
+                        <p class="note-description">Detailed explanation of thermodynamic principles, laws, and practical applications with example problems.</p>
+                        <div class="note-footer">
+                            <div class="note-author">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1abe027b-0403-4d0b-9db1-d542cb8afe2e.png" alt="User profile picture">
+                                <span>PhysicsGuru</span>
+                            </div>
+                            <div class="note-rating">
+                                <i class="fas fa-star"></i> 4.9
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Note Card 3 -->
+                <div class="note-card">
+                    <div class="note-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9904dfff-3e08-4657-9d04-99af9f9d3f67.png" alt="Colorful biology notes about cell structure with labeled diagrams of organelles">
+                    </div>
+                    <div class="note-content">
+                        <h3 class="note-title">Cell Biology Fundamentals</h3>
+                        <p class="note-description">Beautifully illustrated notes covering cell structure, function, and processes. Great for visual learners!</p>
+                        <div class="note-footer">
+                            <div class="note-author">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b7a47cf0-7ee4-44b8-bbee-5d24a54908ee.png" alt="User profile picture">
+                                <span>BioExplorer</span>
+                            </div>
+                            <div class="note-rating">
+                                <i class="fas fa-star"></i> 4.7
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Note Card 4 -->
+                <div class="note-card">
+                    <div class="note-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ad09c357-06c1-4174-a229-fca5601843e1.png" alt="Code snippets in Python showing object-oriented programming concepts with comments">
+                    </div>
+                    <div class="note-content">
+                        <h3 class="note-title">Python OOP Concepts</h3>
+                        <p class="note-description">Object-Oriented Programming in Python explained with clear examples and best practices. From beginner to advanced.</p>
+                        <div class="note-footer">
+                            <div class="note-author">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/525444c6-f2ac-4e08-8249-38551e570441.png" alt="User profile picture">
+                                <span>CodeMaster</span>
+                            </div>
+                            <div class="note-rating">
+                                <i class="fas fa-star"></i> 5.0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary" id="uploadBtn" style="padding: 12px 24px;">
+                    <i class="fas fa-upload"></i> Upload Your Notes
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Notes Section -->
+    <section class="subjects" id="popular" style="background-color: #f5f7ff;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Most Popular Notes</h2>
+                <p>Top-rated study materials from our community</p>
+            </div>
+            
+            <div class="notes-grid">
+                <!-- Popular Note 1 -->
+                <div class="note-card">
+                    <div class="note-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/14ba7871-7bde-43ed-ad89-c86645862ac0.png" alt="Organic chemistry mechanisms with color-coded electron flow arrows and reaction schemes">
+                    </div>
+                    <div class="note-content">
+                        <h3 class="note-title">Organic Chemistry Mechanisms</h3>
+                        <p class="note-description">Complete guide to organic chemistry reactions with detailed mechanisms and examples. A must-have for pre-med students.</p>
+                        <div class="note-footer">
+                            <div class="note-author">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b4101234-17dc-42b8-89fb-8766b9c57f76.png" alt="User profile picture">
+                                <span>ChemWhiz</span>
+                            </div>
+                            <div class="note-rating">
+                                <i class="fas fa-star"></i> 4.9
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Popular Note 2 -->
+                <div class="note-card">
+                    <div class="note-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f4802ab7-f948-4482-8b95-5097ed6110a3.png" alt="Financial analysis notes with charts showing discounted cash flow models and valuation techniques">
+                    </div>
+                    <div class="note-content">
+                        <h3 class="note-title">Corporate Finance Essentials</h3>
+                        <p class="note-description">Master financial statements analysis, valuation methods, and capital budgeting with these concise notes.</p>
+                        <div class="note-footer">
+                            <div class="note-author">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/84c0c758-13bd-482f-aa06-005948628e84.png" alt="User profile picture">
+                                <span>FinancePro</span>
+                            </div>
+                            <div class="note-rating">
+                                <i class="fas fa-star"></i> 4.8
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Popular Note 3 -->
+                <div class="note-card">
+                    <div class="note-image">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d83ca39e-6877-41cb-b982-c380df8b4180.png" alt="Machine learning algorithm cheat sheet with comparison tables and pseudocode">
+                    </div>
+                    <div class="note-content">
+                        <h3 class="note-title">ML Algorithms Cheat Sheet</h3>
+                        <p class="note-description">Quick reference guide to all major machine learning algorithms with pros/cons and use cases. Perfect for exam prep!</p>
+                        <div class="note-footer">
+                            <div class="note-author">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/48e97a94-96d6-4520-a020-c137aff11bf0.png" alt="User profile picture">
+                                <span>AI_Enthusiast</span>
+                            </div>
+                            <div class="note-rating">
+                                <i class="fas fa-star"></i> 5.0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-book-open"></i>
+                <span>StudyNotes</span>
+            </div>
+            <div class="footer-links">
+                <a href="#">Home</a>
+                <a href="#subjects">Subjects</a>
+                <a href="#popular">Popular</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="https://github.com/[your-github-username]/studynotes" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+            <p class="copyright">© 2023 StudyNotes Exchange. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Login to StudyNotes</h3>
+                <button class="close-btn" id="closeLoginModal">&times;</button>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-group" style="text-align: right;">
+                    <a href="#" style="font-size: 0.9rem;">Forgot password?</a>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelLogin">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create an Account</h3>
+                <button class="close-btn" id="closeSignupModal">&times;</button>
+            </div>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create a password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelSignup">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Upload Your Study Notes</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label for="noteTitle">Note Title</label>
+                    <input type="text" id="noteTitle" placeholder="Enter a descriptive title for your notes" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="noteSubject">Subject</label>
+                    <select id="noteSubject" required>
+                        <option value="">Select a subject</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Business">Business</option>
+                        <option value="Medicine">Medicine</option>
+                        <option value="Literature">Literature</option>
+                        <option value="History">History</option>
+                        <option value="Languages">Languages</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="noteDescription">Description</label>
+                    <textarea id="noteDescription" placeholder="Briefly describe your notes, what topics they cover, and any special features..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Upload Files</label>
+                    <div class="file-upload" id="fileUploadArea">
+                        <input type="file" id="noteFiles" class="file-input" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.png">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop your files here or click to browse</p>
+                        <p id="fileInfo" style="font-size: 0.8rem; margin-top: 10px; display: none;"></p>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelUpload">Cancel</button>
+                    <button type="button" class="btn btn-outline" id="previewBtn">
+                        <i class="fas fa-eye"></i> Preview
+                    </button>
+                    <button type="button" class="btn btn-outline" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download Sample
+                    </button>
+                    <button type="submit" class="btn btn-primary">Upload Notes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Authentication Modals
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const loginModal = document.getElementById('loginModal');
+        const signupModal = document.getElementById('signupModal');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const closeSignupModal = document.getElementById('closeSignupModal');
+        const cancelLogin = document.getElementById('cancelLogin');
+        const cancelSignup = document.getElementById('cancelSignup');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+
+        // Show/hide auth modals
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+
+        signupBtn.addEventListener('click', () => {
+            signupModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+
+        function closeAuthModals() {
+            loginModal.style.display = 'none';
+            signupModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        closeLoginModal.addEventListener('click', closeAuthModals);
+        closeSignupModal.addEventListener('click', closeAuthModals);
+        cancelLogin.addEventListener('click', closeAuthModals);
+        cancelSignup.addEventListener('click', closeAuthModals);
+
+        // Form submission handlers
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            // Simplified demo - in real app would authenticate with backend
+            alert(`Login attempt for ${email}`);
+            closeAuthModals();
+        });
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert("Passwords don't match!");
+                return;
+            }
+            
+            // Simplified demo - in real app would create account
+            alert(`Account created for ${name} (${email})`);
+            closeAuthModals();
+        });
+
+        // DOM Elements
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadModal = document.getElementById('uploadModal');
+        const closeModal = document.getElementById('closeModal');
+        const cancelUpload = document.getElementById('cancelUpload');
+        const uploadForm = document.getElementById('uploadForm');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const noteFiles = document.getElementById('noteFiles');
+        const fileInfo = document.getElementById('fileInfo');
+        const tags = document.querySelectorAll('.tag');
+        
+        // Apply staggered animations to note cards
+        document.querySelectorAll('.note-card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+        
+        // Show modal when upload button is clicked
+        uploadBtn.addEventListener('click', () => {
+            uploadModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close modal functions
+        function closeModalFunc() {
+            uploadModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        closeModal.addEventListener('click', closeModalFunc);
+        cancelUpload.addEventListener('click', closeModalFunc);
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === uploadModal) {
+                closeModalFunc();
+            }
+        });
+        
+        // File upload handling
+        fileUploadArea.addEventListener('click', () => {
+            noteFiles.click();
+        });
+        
+        noteFiles.addEventListener('change', () => {
+            const files = noteFiles.files;
+            if (files.length > 0) {
+                let fileNames = [];
+                for (let i = 0; i < Math.min(files.length, 3); i++) {
+                    fileNames.push(files[i].name);
+                }
+                if (files.length > 3) {
+                    fileNames.push(`...and ${files.length - 3} more`);
+                }
+                fileInfo.textContent = fileNames.join(', ');
+                fileInfo.style.display = 'block';
+                fileUploadArea.style.borderColor = '#4a6bff';
+            } else {
+                fileInfo.style.display = 'none';
+                fileUploadArea.style.borderColor = '#ddd';
+            }
+        });
+        
+        // Drag and drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            fileUploadArea.classList.add('highlight');
+        }
+        
+        function unhighlight() {
+            fileUploadArea.classList.remove('highlight');
+        }
+        
+        fileUploadArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            noteFiles.files = dt.files;
+            noteFiles.dispatchEvent(new Event('change'));
+        }
+        
+        // Form submission
+        uploadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const title = document.getElementById('noteTitle').value;
+            const subject = document.getElementById('noteSubject').value;
+            const description = document.getElementById('noteDescription').value;
+            const files = document.getElementById('noteFiles').files;
+            
+            if (files.length === 0) {
+                alert('Please select at least one file to upload');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = uploadForm.querySelector('.btn-primary');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+            submitBtn.disabled = true;
+            
+            // Simulate upload process (in a real app, this would be an AJAX call)
+            setTimeout(() => {
+                alert(`Successfully uploaded "${title}" for ${subject}!`);
+                uploadForm.reset();
+                fileInfo.style.display = 'none';
+                fileUploadArea.style.borderColor = '#ddd';
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                closeModalFunc();
+            }, 2000);
+        });
+        
+        // Subject tag filtering
+        tags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                tags.forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                // In a real app, this would filter the notes grid
+                alert(`Filtering notes for: ${tag.textContent}`);
+            });
+        });
+        
+        // Sample download button functionality
+        document.getElementById('sampleDownloadBtn').addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.href = 'downloads/sample-notes-pack.zip';
+            link.download = 'free-sample-notes.zip';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            alert('Downloading free sample notes pack...');
+        });
+
+        // Download button functionality
+        document.querySelectorAll('.note-card').forEach(card => {
+            const downloadBtn = card.querySelector('.btn-outline');
+            downloadBtn.addEventListener('click', () => {
+                const title = card.querySelector('.note-title').textContent;
+                // Create a temporary anchor element
+                const link = document.createElement('a');
+                link.href = 'notes/' + encodeURIComponent(title) + '.pdf';
+                link.download = title + '.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                alert(`Downloading "${title}"...`);
+            });
+        });
+
+        // Download functionality
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            // Create a temporary anchor element
+            const link = document.createElement('a');
+            link.href = 'downloads/sample-notes.pdf'; // Replace with actual file URL
+            link.download = 'sample-study-notes.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            alert('Downloading sample study notes...');
+        });
+
+        // Search functionality
+        const searchBar = document.querySelector('.search-bar input');
+        const searchBtn = document.querySelector('.search-bar button');
+        
+        searchBtn.addEventListener('click', () => {
+            if (searchBar.value.trim() !== '') {
+                alert(`Searching for: ${searchBar.value}`);
+            }
+        });
+        
+        searchBar.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && searchBar.value.trim() !== '') {
+                alert(`Searching for: ${searchBar.value}`);
+            }
+        });
+    </script>
+</body>
+</html>
